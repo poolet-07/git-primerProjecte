@@ -1,0 +1,239 @@
+/* =========================================================================
+ * Mapas de casos LAL-D (España y mundo)
+ * ========================================================================= */
+
+.mapa-casos {
+    margin: 1.5rem auto;
+}
+
+.mapa-casos[data-tipo="espana"] {
+    max-width: 720px;
+}
+
+.mapa-casos[data-tipo="mundo"] {
+    max-width: 1100px;
+}
+
+.mapa-casos__mapa {
+    position: relative;
+}
+
+.mapa-casos__mapa svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* En el mundo se puede arrastrar para moverse */
+.mapa-casos[data-tipo="mundo"] .mapa-casos__mapa svg {
+    cursor: grab;
+    touch-action: none;
+}
+.mapa-casos__mapa--arrastrando {
+    cursor: grabbing !important;
+}
+
+/* Regiones del mapa */
+.mapa-casos__mapa path {
+    fill: #d9e2ec;
+    stroke: #ffffff;
+    stroke-width: 0.7;
+    cursor: pointer;
+    outline: none;
+    transition: fill 0.15s ease;
+}
+.mapa-casos__mapa path.tiene-casos {
+    fill: #9fb3c8;
+}
+.mapa-casos__mapa path:hover,
+.mapa-casos__mapa path:focus {
+    fill: #627d98;
+}
+.mapa-casos__mapa path.seleccionada {
+    fill: #334e68;
+}
+
+/* -------- Controles de zoom (mapa del mundo) -------- */
+.mapa-casos__controles {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.mapa-casos__zoom {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+    line-height: 1;
+    border: 1px solid #bcccdc;
+    background: #ffffff;
+    color: #334e68;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+.mapa-casos__zoom:hover {
+    background: #f0f4f8;
+}
+
+/* -------- Texto de ayuda y crédito -------- */
+.mapa-casos__ayuda {
+    margin: 0.6rem 0 0;
+    font-size: 0.85rem;
+    color: #627d98;
+    text-align: center;
+}
+.mapa-casos__credito {
+    margin: 0.4rem 0 0;
+    font-size: 0.75rem;
+    color: #829ab1;
+    text-align: center;
+}
+
+/* =========================================================================
+ * Overlay: la región se agranda y se centra en la pantalla
+ * ========================================================================= */
+
+.mapa-casos__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+.mapa-casos__overlay[hidden] {
+    display: none;
+}
+
+.mapa-casos__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(16, 42, 67, 0.55);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.mapa-casos__tarjeta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f0f4f8;
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
+    max-width: min(92vw, 460px);
+    /* Estado inicial de la animación: pequeño y transparente */
+    transform: scale(0.6);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1.15),
+                opacity 0.22s ease;
+}
+
+/* Al mostrarse, el fondo y la región crecen juntos hasta su tamaño final */
+.mapa-casos__overlay.is-visible .mapa-casos__backdrop {
+    opacity: 1;
+}
+.mapa-casos__overlay.is-visible .mapa-casos__tarjeta {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.mapa-casos__cerrar {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    border: 0;
+    background: transparent;
+    font-size: 26px;
+    line-height: 1;
+    color: #627d98;
+    cursor: pointer;
+}
+.mapa-casos__cerrar:hover {
+    color: #243b53;
+}
+
+/* La silueta ampliada */
+.mapa-casos__figura {
+    width: min(62vw, 300px);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mapa-casos__figura-svg {
+    width: 100%;
+    height: 100%;
+}
+.mapa-casos__figura-svg path {
+    fill: #334e68;
+    stroke: #ffffff;
+    stroke-width: 0.5;
+}
+
+.mapa-casos__nombre {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #243b53;
+    text-align: center;
+}
+.mapa-casos__contador {
+    margin: 0;
+    font-size: 2.3rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #334e68;
+    text-align: center;
+}
+.mapa-casos__contador--cero {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #829ab1;
+}
+
+/* =========================================================================
+ * Tabla de prevalencia ([tabla_casos])
+ * ========================================================================= */
+
+.tabla-casos-wrap {
+    overflow-x: auto;
+    margin: 1.5rem auto;
+}
+.tabla-casos {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 520px;
+}
+.tabla-casos th,
+.tabla-casos td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid #d9e2ec;
+    text-align: right;
+    white-space: nowrap;
+}
+.tabla-casos thead th {
+    background: #627d98;
+    color: #fff;
+    text-align: right;
+    vertical-align: bottom;
+}
+.tabla-casos th:first-child,
+.tabla-casos td:first-child {
+    text-align: left;
+}
+.tabla-casos tbody tr:nth-child(even) {
+    background: #f0f4f8;
+}
+.tabla-casos tfoot td {
+    font-weight: 700;
+    background: #d9e2ec;
+    border-top: 2px solid #627d98;
+}
