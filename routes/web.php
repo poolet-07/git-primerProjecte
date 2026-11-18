@@ -1,0 +1,13 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PacientController;
+use App\Http\Controllers\AdministradorController;
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::resource('pacient', PacientController::class);
+Route::resource('admin', AdministradorController::class);
