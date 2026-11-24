@@ -24,7 +24,7 @@ class AdministradorController extends Controller
      */
     public function create()
     {
-        //
+        return view("formAdmin");
     }
 
     /**
@@ -32,7 +32,14 @@ class AdministradorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = $request->input('user');
+        $pass = $request->input('pwd');
+        Administrador::create([
+            'user'=>$user,
+            'pwd' =>$pass
+        ]);
+        return redirect()->route('menu');
+
     }
 
     /**
@@ -52,7 +59,7 @@ class AdministradorController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage.f
      */
     public function update(Request $request, string $id)
     {
