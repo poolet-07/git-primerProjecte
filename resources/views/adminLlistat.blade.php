@@ -9,7 +9,8 @@
     <ul>
     @foreach ($admins as $admin)
         <li>{{$admin->user}}</li>  
-        <li>{{$admin->pwd}}</li>   
+        <li>{{$admin->pwd}}</li>  
+        <a href="{{route('admin.show', $admin)}}">Ver</a> 
 
     @endforeach
 </ul>
